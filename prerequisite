@@ -1,0 +1,83 @@
+1. Install Virtual box: [In laptop]
+   Link : https://www.virtualbox.org/wiki/Downloads
+
+2. Install Vagrant: [In laptop]
+   Link : https://www.vagrantup.com/downloads
+
+3. Download VSCode: [In laptop]
+   Link : https://code.visualstudio.com/download
+  
+4. Open one AWS account:
+   Link : https://aws.amazon.com/console/
+
+5. Create shared folder [In any drive of your laptop]
+   [Folder structure]
+   D drive :
+    - Shared 
+     - data
+     
+6. Open VScode:
+   Navigate to File -> Open -> Select your shared folder
+  
+7. Run Vagrant command:
+   Click on folder data under shared.
+   Run command "vagrant init"
+   Note : You can find "Vagrantfile" which will be created automatically.
+   
+8. Open "Vagrantfile" Delete all lines and update below code.
+
+[Code]
+
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+  config.vm.define "ans-master" do |vm4|
+    vm4.vm.hostname = "ans-master"
+    vm4.vm.box = "bento/ubuntu-20.04"
+    vm4.vm.network "private_network", ip: "192.178.33.13"
+    vm4.vm.network "forwarded_port", guest: 8080, host: 9000, host_ip: "127.0.0.1", auto_correct: true
+    vm4.vm.network "forwarded_port", guest: 80, host: 9001, host_ip: "127.0.0.1", auto_correct: true
+    vm4.vm.provider "virtualbox" do |vb|
+      vb.name = "ans-master"
+      vb.gui = false
+      vb.memory = "2024"
+    end
+  end
+
+ config.vm.define "ans-target-1" do |vm5|
+   vm5.vm.hostname = "ans-target-1"
+   vm5.vm.box = "bento/ubuntu-20.04"
+   vm5.vm.network "private_network", ip: "192.178.33.14"
+   vm5.vm.provider "virtualbox" do |vb|
+     vb.name = "ans-target-1"
+     vb.gui = false
+     vb.memory = "1024"
+   end 
+ end
+
+ config.vm.define "ans-target-2" do |vm6|
+   vm6.vm.hostname = "ans-target-2"
+   vm6.vm.box = "generic/centos8"
+   vm6.vm.network "private_network", ip: "192.178.33.15"
+   vm6.vm.provider "virtualbox" do |vb|
+     vb.name = "ans-target-2"
+     vb.gui = false
+     vb.memory = "1024"
+   end
+ end
+ 
+ config.vm.define "tf-master" do |vm7|
+    vm7.vm.hostname = "tf-master"
+    vm7.vm.box = "bento/ubuntu-20.04"
+    vm7.vm.network "private_network", ip: "192.168.33.16"
+    vm7.vm.provider "virtualbox" do |vb|
+      vb.name = "tf-master"
+      vb.gui = false
+      vb.memory = "1024"
+    end
+  end
+end
+
+9. Command to bring up the Virtual machines.
+   vagrant up
+   vagrant ssh TF-Master
