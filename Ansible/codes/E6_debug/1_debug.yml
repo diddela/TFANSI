@@ -1,0 +1,11 @@
+---
+  - hosts: all
+    gather_facts: yes
+    tasks: 
+      - name: Print output by lines one by one
+        debug:
+          msg:
+            - VM Name {{ ansible_nodename }}
+            - OS Family {{ ansible_os_family }}
+            - IP address {{ ansible_all_ipv4_addresses }}
+    

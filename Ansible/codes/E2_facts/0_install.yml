@@ -1,0 +1,15 @@
+---
+  - hosts: all
+    #remote_users: apache
+    #become: true
+    gather_facts: yes
+    ignore_errors: true
+    tasks:
+        - name: Uninstall apache
+          yum:
+            name: httpd
+            state: absent
+        - name: Apache service restart
+          service: 
+            name: httpd
+            state: stopped

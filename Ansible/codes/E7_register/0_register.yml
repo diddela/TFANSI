@@ -1,0 +1,11 @@
+---
+  - hosts: all
+    remote_user: vagrant
+    gather_facts: no
+    tasks: 
+      - shell: "free -m"
+        register: results
+      - debug:
+          #msg: "{{ df_results.stdout }}"
+          #msg: "{{ df_results.stdout_lines }}"
+          msg: "{{ results.stdout_lines }}"

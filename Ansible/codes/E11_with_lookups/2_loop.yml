@@ -1,0 +1,20 @@
+# Playbook using loops to create multiple user
+---
+  - hosts: all
+    gather_facts: no
+    tasks:
+      - name: add several users through loop
+        user:
+          name: "{{ item }}"
+          state: present
+          # groups: "wheel"
+        loop:
+          - testuser1
+          - testuser2
+          - testuser3
+          
+     
+   
+   
+   
+

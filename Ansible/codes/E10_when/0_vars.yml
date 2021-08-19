@@ -1,0 +1,29 @@
+# Playbook using when condition
+---
+  - hosts: all
+    gather_facts: yes
+    tasks:
+      - name: copying metricbeat files to Debian
+        when: ansible_os_family == "Debian"
+        copy: src=/srv/myfiles/metricbeat-5.5.1-amd64.deb dest=/opt
+      - name: Install dpkg package
+        when: ansible_os_family == "Debian"
+        shell: dpkg -i metricbeat-5.5.1-amd64.deb
+        args:
+          chdir: /opt
+        notify: restart metricbeat
+        
+      - name: copying metricbeat files to Centos
+        when: ansible_os_family == "CentOS/RedHat"
+        copy: src=/srv/myfiles/metricbeat-5.5.1-x86_64.rpm dest=/opt
+      - name: Install rpm package
+        when: ansible_os_family == "CentOS/RedHat"
+        shell: rpm -vi metricbeat-5.5.1-x86_64.rpm
+        args:
+          chdir: /opt
+        notify: restart metricbeat
+    handlers:
+      - name: restart metricbeat 
+        service: name=metricbeat state=started
+   
+

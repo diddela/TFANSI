@@ -1,0 +1,23 @@
+# Playbook using when condition
+---
+  - hosts: all
+    gather_facts: yes
+    tasks:
+      - name: Install httpd in ubuntu
+        when: ansible_os_family == "ubuntu"
+        apt:
+          name: httpd
+          state: present
+        notify: start httpd service
+        
+      - name: Install httpd in rhel/centos
+        when: ansible_os_family == "CentOS/RedHat"
+        yum:
+          name: httpd
+          state: present
+        notify: start httpd service
+    handlers:
+      - name: start httpd service
+        service: name=httpd state=started
+   
+
