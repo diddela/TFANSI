@@ -1,0 +1,23 @@
+# Here we are going declare variables inside playbook using module "vars" (Generic method)
+---
+  - hosts: all
+    remote_user: vagrant
+    gather_facts: no
+    become: true
+    ignore_errors: true
+    check_mode: yes
+    vars:
+      - package: ntpd
+      #- service: httpd
+    tasks:
+     - name: Install "{{ package }}"
+       yum:
+        name: '{{ package }}' 
+        state: present
+       notify: restart "{{ package }}"
+    handlers:
+     - name: restart "{{ package }}"
+       service:
+         name: '{{ package }}'
+         state: restarted
+

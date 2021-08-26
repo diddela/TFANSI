@@ -1,0 +1,12 @@
+# In this example we are combining Register with Debug
+---
+  - hosts:
+    gather_facts: yes
+    tasks: 
+      - name: Get uptime
+        shell: /usr/bin/uptime
+        register: result
+      - name: Print results
+        debug:
+          msg: "{{ result }}"  
+# We can also use “msg” submodule here.

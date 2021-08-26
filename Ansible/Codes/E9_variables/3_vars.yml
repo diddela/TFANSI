@@ -1,0 +1,17 @@
+# In this example we are going pass this variables from command line using Extra_vars
+---
+  - hosts: all
+    remote_user: vagrant
+    become: true
+    gather_facts: no
+    #check_mode: yes
+    ignore_errors: true
+    tasks: 
+      - name: Install {{ package }}
+        yum: name={{ package }}  state=present
+      - name: Enable {{ service }}
+        service: name={{ service }} enabled=yes
+      - name: Start {{ service }}
+        service: name={{ service }} state=started
+
+# ansible-playbook 4.vars.yml --extra-vars "package=httpd service=httpd"

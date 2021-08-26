@@ -1,0 +1,19 @@
+# Playbook using with_items condition
+---
+  - hosts: all
+    remote_user: vagrant
+    become: true
+    gather_facts: yes
+    ignore_errors: yes
+    tasks:
+      - name: Install packages
+        when: ansible_os_family == "RedHat"
+        yum: name={{ item }} state=present
+        loop:
+         - httpd
+         - python3 
+         - wget
+         
+   
+   
+

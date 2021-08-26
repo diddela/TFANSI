@@ -1,0 +1,15 @@
+# In this example we are going declars variables in a file called vars.yml and call it here.
+# Modules used [vars_files]
+---
+  - hosts: all
+    gather_facts: no
+    vars_files:
+      - vars.yml
+    tasks:
+      - name: Install {{ Package }}
+        yum: name={{ Package }}  state=present
+      - name: Enable {{ Service }}
+        service: name={{ Service }} enabled=yes
+      - name: Start {{ Service }}
+        service: name={{ Service }} state=started
+   

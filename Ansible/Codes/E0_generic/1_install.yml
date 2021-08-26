@@ -1,0 +1,11 @@
+---
+  - hosts:
+    remote_users: apache
+    become: true
+    tasks:
+        - name: Install apache
+          yum: name=httpd state=present
+        - name: Install PHP
+          yum: name=php5 state=present
+        - name: Apache service restart
+          service: name=httpd state=restarted

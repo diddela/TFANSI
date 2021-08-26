@@ -1,0 +1,21 @@
+# Here we are going declare variables inside playbook using module "vars" (Dictionary method)
+---
+  - hosts: dev
+    gather_facts: no
+    vars:
+      package:
+       apache: httpd
+       shell: zsh
+       ntp: ntpd
+       python: python3
+       mysql: mysql
+    tasks:
+      - name: Install packages
+        yum: name={{ package.apache }} state=present
+        ignore_errors: True
+        - name: Install packages
+        yum: name={{ package.shell }} state=present
+        ignore_errors: True
+        - name: Install packages
+        yum: name={{ package.ntp }} state=present
+        ignore_errors: True

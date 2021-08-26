@@ -1,0 +1,17 @@
+---
+ - hosts: all
+   remote_user: vagrant
+   become: true
+   gather_facts: yes
+   ignore_errors: yes
+   tasks:
+    - name: Install python3 in RHEL machines
+      when: ansible_os_family == "RedHat"
+      yum:
+        name: httpd
+        state: absent
+    - name: Install python3 in Ubuntu machines
+      when: ansible_os_family == "Debian"
+      apt:
+        name: apache2
+        state: present

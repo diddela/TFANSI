@@ -1,0 +1,19 @@
+# In this example we are going pass variables from command line at run time using vars_prompt
+---
+  - hosts: all
+    gather_facts: no
+    ignore_errors: true
+    become: true
+    check_mode: yes
+    vars_prompt:
+      - name: Package
+        prompt: "Which package need to be installed in remote machines?"
+        private: yes
+      - name: Service
+        prompt: "Which service need to be restarted in remote machines?"
+        private: no
+    tasks:
+      - name: Install {{ Package }}
+        yum: name={{ Package }}  state=present
+      - name: Start {{ Service }}
+        service: name={{ Service }} state=started

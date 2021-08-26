@@ -1,0 +1,12 @@
+---
+  - hosts:
+    remote_users: apache
+    become: true
+    gather_facts: no
+    tasks:
+        - name: Install apache
+          yum: name=httpd state=present
+          ignore_errors: true
+        - name: Apache service restart
+          service: name=httpd state=restarted
+          ignore_errors: true

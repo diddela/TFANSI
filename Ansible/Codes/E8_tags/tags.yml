@@ -1,0 +1,28 @@
+---
+  - hosts: all
+    remote_user: vagrant
+    gather_facts: no
+    ignore_errors: yes
+    become: true
+    tasks: 
+      - name: Install apache
+        yum: name=httpd state=present
+        tags: a
+      - name: Install ntp
+        yum: name=ntpd state=present
+        tags: b
+      - name: Install PHP
+        yum: name=php5 state=present
+        tags: c
+
+# Executions: 
+# run playbook specific tag :
+  # ansible-playbook tags.yml --tags "a"
+# run playbook with one or more tags
+  # ansible-playbook tags.yml --tags "a, b"
+# run playbook without tags :
+  # ansible-playbook tags.yml
+# run playbook by skipping specific tag :
+  # ansible-playbook tags.yml --skip-tags "a"
+
+
